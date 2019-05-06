@@ -1,0 +1,172 @@
+<template>
+  <view class="navbar-box">
+    <view class="navbar" wx:if="{{navbar.flag}}" 
+      style="padding-top: {{paddingTop}}px; padding-bottom: {{paddingBottom}}px;">
+      <view class="nav_capsule" :class="{no_border:!showHome}" 
+        style="height:{{height_capsule}}px">
+        <button class="nav_back" @tap="navBack" wx:if="{{showBack}}">
+          <view class="icon_back"></view>
+        </button>
+        <view class="divide" wx:if="{{showBack}}"></view>
+        <button class="nav_home" @tap="goHome" wx:if="{{showHome}}" hover-class="selected">
+          <view class="icon_home"></view>
+        </button>
+      </view>
+      <view class="nav_title" style="height: {{height_capsule}}px;">
+        <text class="title">{{navbar.title}}</text>
+      </view>
+      <view class="nav_right" style="width: {{width_capsule}}px;"></view>
+    </view>
+    <view class="placeholder" wx:if="{{navbar.flag}}" style="height:{{height}}px"></view>
+  </view>    
+</template>
+<script>
+import wepy from "wepy";
+import common from '@/mixins/common'
+export default class Navbar extends wepy.component{
+  props = {
+    navbar: {
+      type: Object,
+      twoWay: true
+    }
+  }
+  data = {
+    flag: true, //navbar是否使用
+    height_capsule : '',
+    width_capsule : '',
+    height: '',
+    paddingTop: '',
+    paddingBottom: '',
+    showBack: true,
+    showHome: true
+  }
+  methods = {
+    navBack() {
+      wx.navigateBack()
+    },
+    goHome() {
+      common.sendEvent({
+        info: 'wx_navigation_return_home'
+      })
+      wx.switchTab({
+        url: '/pages/index',
+      })
+    }
+  }
+  onLoad() {
+    this.showBack = getCurrentPages().length > 1 ? true : false
+    this.showHome = this.navbar.showHome
+    // 获取菜单按钮（右上角胶囊按钮）的布局位置信息，坐标信息以屏幕左上角为原点。
+    let menuRect = wx.getMenuButtonBoundingClientRect()
+    this.height_capsule = menuRect.height
+    this.width_capsule = menuRect.width
+    this.paddingT = menuRect.top
+    this.paddingTop = menuRect.top
+    const statusBarHeight = parseInt(wepy.getStorageSync("statusBarHeight") || 0)
+    this.paddingBottom = menuRect.top - statusBarHeight
+    this.height = menuRect.bottom + this.paddingBottom
+    this.navbar.height = this.height
+    this.$apply()
+  }
+}
+</script>
+<style lang="less" scoped>
+  .navbar {
+    padding-left:20rpx;
+    padding-right:20rpx;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    // align-items:center;
+    align-items: center;
+    z-index: 99999;
+    background-color: #fff;
+    .nav_capsule {
+      box-sizing: border-box;
+      min-width: 96rpx;
+      display: flex;
+      align-items: center;
+      border: 2rpx solid#F0F0F0;
+      border-radius: 100rpx;
+      button::after {
+        border: none;
+      }
+      &.no_border {
+        border: none;
+      }
+      .divide {
+        height: 40rpx;
+        border-left: 2rpx solid#F0F0F0;
+      }
+      .nav_back, .nav_home {
+        padding: 0;
+        background-color: #fff;
+        width: 78rpx;
+        height: 44rpx;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .nav_back {
+        // border-right: 2rpx solid#F0F0F0;
+        border-top-left-radius:100px;
+        border-bottom-left-radius:100px;
+      }
+      .icon_back {
+        width:20rpx;
+        height:36rpx;
+        background-image: url('https://static.soyoung.com/sy-pre/icon_back-1554361800687.png');
+        background-size: contain;
+      }
+      .icon_home {
+        width: 40rpx;
+        height: 40rpx;
+        background-image: url('https://static.soyoung.com/sy-pre/icon_home-1554369000799.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+      .nav_home{
+        border-top-right-radius:100px;
+        border-bottom-right-radius:100px;
+        &.selected {
+          .icon_home {
+            width: 46rpx;
+            height: 46rpx;
+            background-image: url('https://static.soyoung.com/sy-pre/icon_home_selected-1554369000799.png');
+            background-size: cover;
+          }
+        }
+      }
+    }
+    .nav_title {
+      flex: 1;
+      text-align:center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .title {
+        display: block;
+        width: 300rpx;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align:center;
+      }
+      font-weight: bold;
+      font-size: 36rpx;
+      color: #000;
+    }
+    .nav_right {
+      height: 100%;
+      // width: 156rpx;
+      // &.minW {
+      //   width: 96rpx;
+      // }
+    }
+  }
+  .placeholder{
+    width: 100%;
+  }
+</style>

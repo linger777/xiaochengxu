@@ -14,16 +14,14 @@
 3. 调用组件
 `<navbar :navbar.sync="navbar"></navbar>`
 4. 赋值
->>>>>
-    data = {
-        navbar: {
-		    flag: true, //是否使用navbar
-        title: '顶部导航',	// 自定义导航标题
-        height: ''	// 导航高度
+  data = {
+    navbar: {
+      flag: true, //是否使用navbar
+      title: '顶部导航',	// 自定义导航标题
+      height: ''	// 导航高度
     },
-}
+  }
 
->>>>>
 5. 如页面遇到有 sticky \ fixed 定位的view，按需要可以通过加入style进行调整
 `style="top: {{navbar.flag ? navbar.height : 0}}rpx;"`
 ### 说明

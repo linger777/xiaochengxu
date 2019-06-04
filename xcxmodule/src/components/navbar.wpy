@@ -1,9 +1,7 @@
 <template>
   <view class="navbar-box">
-    <view class="navbar" wx:if="{{navbar.flag}}" 
-      style="padding-top: {{paddingTop}}px; padding-bottom: {{paddingBottom}}px;">
-      <view class="nav_capsule" :class="{no_border:!showHome}" 
-        style="height:{{height_capsule}}px">
+    <view class="navbar" wx:if="{{navbar.flag}}" style="padding-top: {{paddingTop}}px; padding-bottom: {{paddingBottom}}px;">
+      <view class="nav_capsule" :class="{no_border:!showHome}" style="height:{{height_capsule}}px">
         <button class="nav_back" @tap="navBack" wx:if="{{showBack}}">
           <view class="icon_back"></view>
         </button>
@@ -21,13 +19,17 @@
   </view>    
 </template>
 <script>
-import wepy from "wepy";
-import common from '@/mixins/common'
+import wepy from "wepy"
 export default class Navbar extends wepy.component{
   props = {
     navbar: {
       type: Object,
-      twoWay: true
+      twoWay: true, 
+      // default: {
+      //  flag: true, //是否使用navbar
+      // 	title: '顶部导航',	// 自定义导航标题
+     	// 	height: ''	// 导航高度
+      // }
     }
   }
   data = {
@@ -45,15 +47,13 @@ export default class Navbar extends wepy.component{
       wx.navigateBack()
     },
     goHome() {
-      common.sendEvent({
-        info: 'wx_navigation_return_home'
-      })
       wx.switchTab({
         url: '/pages/index',
       })
     }
   }
   onLoad() {
+    this.navbar.flag = wx.getSystemInfoSync().version.split('.')[0] >= 7 ? true : false
     this.showBack = getCurrentPages().length > 1 ? true : false
     this.showHome = this.navbar.showHome
     // 获取菜单按钮（右上角胶囊按钮）的布局位置信息，坐标信息以屏幕左上角为原点。
@@ -79,7 +79,6 @@ export default class Navbar extends wepy.component{
     width: 100%;
     box-sizing: border-box;
     display: flex;
-    // align-items:center;
     align-items: center;
     z-index: 99999;
     background-color: #fff;
@@ -110,20 +109,19 @@ export default class Navbar extends wepy.component{
         align-items: center;
       }
       .nav_back {
-        // border-right: 2rpx solid#F0F0F0;
         border-top-left-radius:100px;
         border-bottom-left-radius:100px;
       }
       .icon_back {
         width:20rpx;
         height:36rpx;
-        background-image: url('https://static.soyoung.com/sy-pre/icon_back-1554361800687.png');
+        background-image: url('https://i.bmp.ovh/imgs/2019/06/4b59be17a50a397c.png');
         background-size: contain;
       }
       .icon_home {
         width: 40rpx;
         height: 40rpx;
-        background-image: url('https://static.soyoung.com/sy-pre/icon_home-1554369000799.png');
+        background-image: url('https://i.bmp.ovh/imgs/2019/06/74e7fd017e711cf6.png');
         background-size: contain;
         background-repeat: no-repeat;
       }
@@ -134,7 +132,7 @@ export default class Navbar extends wepy.component{
           .icon_home {
             width: 46rpx;
             height: 46rpx;
-            background-image: url('https://static.soyoung.com/sy-pre/icon_home_selected-1554369000799.png');
+            background-image: url('https://i.bmp.ovh/imgs/2019/06/5e733bc966c07c7b.png');
             background-size: cover;
           }
         }
@@ -160,10 +158,6 @@ export default class Navbar extends wepy.component{
     }
     .nav_right {
       height: 100%;
-      // width: 156rpx;
-      // &.minW {
-      //   width: 96rpx;
-      // }
     }
   }
   .placeholder{

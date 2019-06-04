@@ -1,0 +1,21 @@
+<template>
+  <view>
+    <view bindtap="toCom">组件篇</view>
+  </view>
+</template>
+<script>
+import wepy from "wepy"
+export default class Index extends wepy.page{
+  methods = {
+    toCom () {
+      wx.navigateTo({ url: 'components' })
+    }
+  }
+}
+</script>
+<style lang="less">
+
+</style>
+
+
+

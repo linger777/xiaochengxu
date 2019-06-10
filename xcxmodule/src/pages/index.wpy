@@ -8,7 +8,7 @@ import wepy from "wepy"
 export default class Index extends wepy.page{
   methods = {
     toCom () {
-      wx.navigateTo({ url: 'components' })
+      wx.navigateTo({ url: 'components1' })
     }
   }
 }

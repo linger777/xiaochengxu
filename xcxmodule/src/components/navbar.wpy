@@ -1,5 +1,5 @@
 <template>
-  <view class="navbar-box">
+  <view class="navbar-box" wx:if="{{navbar.flag}}">
     <view class="navbar" wx:if="{{navbar.flag}}" style="padding-top: {{paddingTop}}px; padding-bottom: {{paddingBottom}}px;">
       <view class="nav_capsule" :class="{no_border:!showHome}" style="height:{{height_capsule}}px">
         <button class="nav_back" @tap="navBack" wx:if="{{showBack}}">
@@ -13,7 +13,7 @@
       <view class="nav_title" style="height: {{height_capsule}}px;">
         <text class="title">{{navbar.title}}</text>
       </view>
-      <view class="nav_right" style="width: {{width_capsule}}px;"></view>
+      <view class="nav_right" style="height: {{height_capsule}}px; width: {{width_capsule}}px;"></view>
     </view>
     <view class="placeholder" wx:if="{{navbar.flag}}" style="height:{{height}}px"></view>
   </view>    
@@ -26,9 +26,10 @@ export default class Navbar extends wepy.component{
       type: Object,
       twoWay: true, 
       // default: {
-      //   flag: true, //是否使用navbar
-      // 	title: '顶部导航',	// 自定义导航标题
-     	// 	height: ''	// 导航高度
+      // flag: true, //是否使用navbar
+      // title: '顶部导航',	// 自定义导航标题
+      // height: '',	// 导航高度
+      // showHome: true //是否显示去首页功能
       // }
     }
   }
@@ -53,14 +54,13 @@ export default class Navbar extends wepy.component{
     }
   }
   onLoad() {
-    // this.navbar.flag = wx.getSystemInfoSync().version.split('.')[0] >= 7 ? true : false
+    this.navbar.flag = wx.getSystemInfoSync().version.split('.')[0] >= 7 ? true : false
     this.showBack = getCurrentPages().length > 1 ? true : false
     this.showHome = this.navbar.showHome
     // 获取菜单按钮（右上角胶囊按钮）的布局位置信息，坐标信息以屏幕左上角为原点。
     let menuRect = wx.getMenuButtonBoundingClientRect()
     this.height_capsule = menuRect.height
     this.width_capsule = menuRect.width
-    this.paddingT = menuRect.top
     this.paddingTop = menuRect.top
     this.paddingBottom = menuRect.top - wepy.getSystemInfoSync().statusBarHeight
     this.height = menuRect.bottom + this.paddingBottom

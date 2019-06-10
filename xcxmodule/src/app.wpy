@@ -18,14 +18,30 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/index',
-      'pages/components'
+      'pages/components',
+      'pages/components1'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
-    }
+    },
+    tabBar: {
+      color: '#777',
+      selectedColor: '#2CC7C5',
+      backgroundColor: '#ffffff',
+      borderStyle: 'white',
+      list: [{
+        pagePath: "pages/index",
+        text: "首页",
+        // iconPath: 'images/icon-home.png',
+        // selectedIconPath: 'images/icon-home-select.png'
+      }, {
+        pagePath: "pages/components",
+        text: "组件"
+      }]
+    },
   }
 
   globalData = {

@@ -1,0 +1,34 @@
+<template>
+  <view class="page_components">
+    <navbar :navbar.sync="navbar"></navbar>
+    <view class="divide"></view>
+  </view>
+</template>
+<script>
+import wepy from "wepy"
+import navbar from "@/components/navbar"
+export default class components extends wepy.page{
+  config = {
+    navigationStyle: "custom" 
+  }
+  components = {
+    navbar    //顶部导航
+  }
+  data = {
+    navbar: {
+      flag: true,
+      title: '顶部导航',
+      height: ''
+    },
+  }
+}
+</script>
+<style lang="less">
+.page_components {
+  background-color: pink;
+  height: 100vh;
+}
+</style>
+
+
+

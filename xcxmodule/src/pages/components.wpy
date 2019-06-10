@@ -1,6 +1,7 @@
 <template>
-  <view>
+  <view class="page_components">
     <navbar :navbar.sync="navbar"></navbar>
+    <view class="divide"></view>
   </view>
 </template>
 <script>
@@ -23,7 +24,10 @@ export default class components extends wepy.page{
 }
 </script>
 <style lang="less">
-
+.page_components {
+  background-color: pink;
+  height: 100vh;
+}
 </style>
 
 

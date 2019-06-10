@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view bindtap="toCom">组件篇</view>
+    <view bindtap="toCom">组件篇(点击去下一页 查看 顶部导航 效果)</view>
   </view>
 </template>
 <script>

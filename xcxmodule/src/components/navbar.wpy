@@ -26,7 +26,7 @@ export default class Navbar extends wepy.component{
       type: Object,
       twoWay: true, 
       // default: {
-      //  flag: true, //是否使用navbar
+      //   flag: true, //是否使用navbar
       // 	title: '顶部导航',	// 自定义导航标题
      	// 	height: ''	// 导航高度
       // }
@@ -53,7 +53,7 @@ export default class Navbar extends wepy.component{
     }
   }
   onLoad() {
-    this.navbar.flag = wx.getSystemInfoSync().version.split('.')[0] >= 7 ? true : false
+    // this.navbar.flag = wx.getSystemInfoSync().version.split('.')[0] >= 7 ? true : false
     this.showBack = getCurrentPages().length > 1 ? true : false
     this.showHome = this.navbar.showHome
     // 获取菜单按钮（右上角胶囊按钮）的布局位置信息，坐标信息以屏幕左上角为原点。
@@ -62,8 +62,7 @@ export default class Navbar extends wepy.component{
     this.width_capsule = menuRect.width
     this.paddingT = menuRect.top
     this.paddingTop = menuRect.top
-    const statusBarHeight = parseInt(wepy.getStorageSync("statusBarHeight") || 0)
-    this.paddingBottom = menuRect.top - statusBarHeight
+    this.paddingBottom = menuRect.top - wepy.getSystemInfoSync().statusBarHeight
     this.height = menuRect.bottom + this.paddingBottom
     this.navbar.height = this.height
     this.$apply()

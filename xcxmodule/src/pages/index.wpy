@@ -1,20 +1,35 @@
 <template>
   <view>
-    <view bindtap="toCom">组件篇(点击去下一页 查看 顶部导航 效果)</view>
+    <view class="li_page" style="{{colorStyle[0]}}" bindtap="toCom">组件篇(点击去下一页)</view>
+    <view class="li_page" style="{{colorStyle[1]}}" bindtap="toPlugins">插件篇(点击去下一页)</view>
   </view>
 </template>
 <script>
 import wepy from "wepy"
+import GenerateColor from "@/plugins/generateColor"
 export default class Index extends wepy.page{
+  data = {
+    colorStyle : []
+  }
   methods = {
     toCom () {
       wx.navigateTo({ url: 'components1' })
+    },
+    toPlugins () {
+      wx.navigateTo({ url: 'plugins' })
+    }
+  }
+  onShow () {
+    for (let index = 0; index < 2; index++) {
+      this.colorStyle.push(new GenerateColor().createColor())
     }
   }
 }
 </script>
 <style lang="less">
-
+.li_page {
+  padding:30rpx;
+}
 </style>
 
 

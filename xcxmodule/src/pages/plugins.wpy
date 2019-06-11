@@ -1,0 +1,28 @@
+<template>
+  <view class="li_plugins" style="{{colorStyle[0]}}">随机生成搭配的背景色和文本颜色</view>
+</template>
+<script>
+import wepy from "wepy"
+import GenerateColor from "@/plugins/generateColor"
+export default class Plugins extends wepy.page{
+  data = {
+    colorStyle : []
+  }
+  init () {
+    this.generateColor() // 随机生成搭配的背景色和文本颜色
+  } 
+  generateColor () {
+    for (let index = 0; index < 2; index++) {
+      this.colorStyle.push(new GenerateColor().createColor())
+    }
+  }
+  onShow () {
+    this.init()
+  }
+}
+</script>
+<style lang="less">
+.li_plugins {
+  padding: 30rpx;
+}
+</style>

@@ -1,5 +1,8 @@
 ## navbar组件 —— 顶部导航
-### [code索引](../components/navbar.wpy)
+### 索引
+[code索引](../components/navbar.wpy)
+[demo索引](../pages/components.wpy)
+[paper索引](https://www.jianshu.com/p/8d87ecf72ec3)
 ### 主要功能
 1. 自定义 小程序 顶部导航 ：*微信版本号 <7 的无此功能*
 2. 去首页 功能 ：*首页没有此功能*

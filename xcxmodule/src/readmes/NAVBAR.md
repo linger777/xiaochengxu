@@ -1,4 +1,4 @@
-## navbar组件 —— ### 顶部导航
+## navbar组件 —— 顶部导航
 ### [code索引](xcxmodule/src/components/navbar.wpy)
 ### 主要功能
 1. 自定义 小程序 顶部导航 ：*微信版本号 <7 的无此功能*

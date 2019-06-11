@@ -21,7 +21,8 @@ export default class Index extends wepy.page{
   }
   onShow () {
     for (let index = 0; index < 2; index++) {
-      this.colorStyle.push(new GenerateColor().createColor())
+      let colorObj = new GenerateColor().createColor()
+      this.colorStyle.push("background-color:" + colorObj.bgColor + ";color:" + colorObj.color + ";")
     }
   }
 }

@@ -1,5 +1,5 @@
 ## generatorColor插件 - 随机生成搭配的背景色和文本色
-### [code索引](xcxmodule/src/components/navbar.wpy)
+### [code索引](xcxmodule/src/plugins/generateColor.js)
 #### 主要功能
 随机生成搭配的背景色和文本色
 #### 使用说明

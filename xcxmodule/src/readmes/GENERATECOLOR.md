@@ -1,4 +1,8 @@
-### generatorColor插件 - 随机生成搭配的背景色和文本色
+## generatorColor插件 - 随机生成搭配的背景色和文本色
+#### 索引
+- [code索引](../plugins/generateColor.js)
+- [demo索引](../pages/plugins.wpy)
+- [paper索引](https://www.jianshu.com/p/d0174257e962)
 #### 主要功能
 随机生成搭配的背景色和文本色
 #### 使用说明

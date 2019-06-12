@@ -39,7 +39,7 @@ export default class extends wepy.app {
         // iconPath: 'images/icon-home.png',
         // selectedIconPath: 'images/icon-home-select.png'
       }, {
-        pagePath: "pages/components",
+        pagePath: "pages/components1",
         text: "组件"
       }]
     },

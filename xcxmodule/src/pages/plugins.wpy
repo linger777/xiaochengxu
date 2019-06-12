@@ -1,21 +1,39 @@
 <template>
   <view class="li_plugins" style="{{colorStyle[0]}}">随机生成搭配的背景色和文本颜色</view>
+  <view class="li_plugins">距结束还剩<view>{{timeCD.days}}</view>:<view>{{timeCD.hours}}</view>:<view>{{timeCD.minutes}}</view>:<view>{{timeCD.seconds}}</view></view>
 </template>
 <script>
 import wepy from "wepy"
 import GenerateColor from "@/plugins/generateColor"
+import TimeCD from '@/plugins/timeCountDown'
 export default class Plugins extends wepy.page{
   data = {
-    colorStyle : []
+    colorStyle : [],
+    timeCD : {}
   }
   init () {
     this.generateColor() // 随机生成搭配的背景色和文本颜色
+    this.countDownTime() // 倒计时
   } 
   generateColor () {
     for (let index = 0; index < 2; index++) {
       let colorObj = new GenerateColor().createColor()
       this.colorStyle.push("background-color:" + colorObj.bgColor + ";color:" + colorObj.color + ";")
     }
+  }
+  countDownTime () {
+    let that = this
+    this.time = new TimeCD({
+        lastTime: 74857732,
+        onSecondChange(){
+            that.$apply()
+        },
+        onFinish() {
+            console.log('==倒计时结束＝＝＝')
+            that.$emit('time end')
+        }
+    })
+    this.$apply()
   }
   onShow () {
     this.init()

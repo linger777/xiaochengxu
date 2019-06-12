@@ -13,7 +13,7 @@ export default class Index extends wepy.page{
   }
   methods = {
     toCom () {
-      wx.navigateTo({ url: 'components1' })
+      wx.navigateTo({ url: 'components' })
     },
     toPlugins () {
       wx.navigateTo({ url: 'plugins' })

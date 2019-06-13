@@ -24,18 +24,18 @@ this.timeCD = new TimeCD({
 })
 ```
 这里，
-倒计时的时间段的设置：
+- 倒计时的时间段的设置：
 * 有两种属性：lastTime 和 startTime+endTime 。
 * lastTime的优先级较高。
 * 单位是毫秒。
-回调方法有：
+- 回调方法有：
 * onYearChange(){},   // 年数变化时回调
 * onDayChange(){},    // 天数变化时回调
 * onHourChange(){},   // 小时变化时回调
 * onMinuteChange(){}, // 分钟变化时回调
 * onSecondChange(){}, // 秒数变化时回调
 * onFinish(){},       // 倒计时结束回调
-返回的倒计时对象属性有：
+- 返回的倒计时对象属性有：
 * seconds 秒（总数）
 * minutes 分钟（总数）
 * hours 小时（总数） 

@@ -1,6 +1,8 @@
 <template>
   <view class="navbar-box" wx:if="{{navbar.flag}}">
-    <view class="navbar" wx:if="{{navbar.flag}}" style="padding-top: {{paddingTop}}px; padding-bottom: {{paddingBottom}}px;">
+    <view class="placeholder" style="height:{{height}}px"></view>
+    <view class="navbar"
+      style="padding-top: {{paddingTop}}px; padding-bottom: {{paddingBottom}}px;">
       <view class="nav_capsule" :class="{no_border:!showHome}" style="height:{{height_capsule}}px">
         <button class="nav_back" @tap="navBack" wx:if="{{showBack}}">
           <view class="icon_back"></view>
@@ -13,9 +15,8 @@
       <view class="nav_title" style="height: {{height_capsule}}px;">
         <text class="title">{{navbar.title}}</text>
       </view>
-      <view class="nav_right" style="height: {{height_capsule}}px; width: {{width_capsule}}px;"></view>
+      <view class="nav_right" style="width: {{width_capsule}}px;"></view>
     </view>
-    <view class="placeholder" wx:if="{{navbar.flag}}" style="height:{{height}}px"></view>
   </view>    
 </template>
 <script>
@@ -24,7 +25,7 @@ export default class Navbar extends wepy.component{
   props = {
     navbar: {
       type: Object,
-      twoWay: true, 
+      twoWay: true,
       // default: {
       // flag: true, //是否使用navbar
       // title: '顶部导航',	// 自定义导航标题
@@ -71,23 +72,23 @@ export default class Navbar extends wepy.component{
 </script>
 <style lang="less" scoped>
   .navbar {
-    padding-left:20rpx;
-    padding-right:20rpx;
+    z-index: 99999;
     position: fixed;
     top: 0;
     width: 100%;
     box-sizing: border-box;
+    padding-left:20rpx;
+    padding-right:20rpx;
     display: flex;
     align-items: center;
-    z-index: 99999;
     background-color: #fff;
     .nav_capsule {
-      box-sizing: border-box;
       min-width: 96rpx;
-      display: flex;
-      align-items: center;
       border: 2rpx solid#F0F0F0;
       border-radius: 100rpx;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
       button::after {
         border: none;
       }
@@ -99,10 +100,10 @@ export default class Navbar extends wepy.component{
         border-left: 2rpx solid#F0F0F0;
       }
       .nav_back, .nav_home {
-        padding: 0;
-        background-color: #fff;
         width: 78rpx;
         height: 44rpx;
+        padding: 0;
+        background-color: #fff;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -114,13 +115,13 @@ export default class Navbar extends wepy.component{
       .icon_back {
         width:20rpx;
         height:36rpx;
-        background-image: url('https://i.bmp.ovh/imgs/2019/06/4b59be17a50a397c.png');
+        background-image: url('https://static.soyoung.com/sy-pre/icon_back-1554361800687.png');
         background-size: contain;
       }
       .icon_home {
         width: 40rpx;
         height: 40rpx;
-        background-image: url('https://i.bmp.ovh/imgs/2019/06/74e7fd017e711cf6.png');
+        background-image: url('https://static.soyoung.com/sy-pre/icon_home-1554369000799.png');
         background-size: contain;
         background-repeat: no-repeat;
       }
@@ -131,7 +132,7 @@ export default class Navbar extends wepy.component{
           .icon_home {
             width: 46rpx;
             height: 46rpx;
-            background-image: url('https://i.bmp.ovh/imgs/2019/06/5e733bc966c07c7b.png');
+            background-image: url('https://static.soyoung.com/sy-pre/icon_home_selected-1554369000799.png');
             background-size: cover;
           }
         }
@@ -139,10 +140,12 @@ export default class Navbar extends wepy.component{
     }
     .nav_title {
       flex: 1;
-      text-align:center;
       display: flex;
       justify-content: center;
       align-items: center;
+      font-weight: bold;
+      font-size: 36rpx;
+      color: #000;
       .title {
         display: block;
         width: 300rpx;
@@ -151,15 +154,17 @@ export default class Navbar extends wepy.component{
         text-overflow: ellipsis;
         text-align:center;
       }
-      font-weight: bold;
-      font-size: 36rpx;
-      color: #000;
     }
     .nav_right {
       height: 100%;
     }
+    animation: anim-navbar 0.4s linear 0s 1;
   }
   .placeholder{
     width: 100%;
+  }
+  @keyframes anim-navbar {
+    0% {opacity: 0;}
+    100% {opacity: 0;}
   }
 </style>

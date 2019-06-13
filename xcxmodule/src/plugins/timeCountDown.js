@@ -16,7 +16,7 @@ export default class TimeCD {
       onSecondChange(){}, // 秒数变化时回调
       onFinish(){},       // 倒计时结束回调
     }, conf)
-    self.lastTime = conf.lastTime ? conf.lastTime : Math.floor(( conf.endTime - conf.startTime )/1000)
+    self.lastTime = conf.lastTime ? Math.floor(conf.lastTime) : Math.floor(( conf.endTime - conf.startTime )/1000)
     self.ticks = 0
     self.countDown()
   }

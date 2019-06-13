@@ -7,6 +7,7 @@ export default class TimeCD {
       format(val){
         return val < 10 ? '0'+val : val
       },    // 对 this.days,...,this.seconds 的值格式化
+      onYearChange(){},   // 年数变化时回调
       onDayChange(){},    // 天数变化时回调
       onHourChange(){},   // 小时变化时回调
       onMinuteChange(){}, // 分钟变化时回调
@@ -20,16 +21,26 @@ export default class TimeCD {
   countDown () {
     let self = this,
       {conf} = self
-    let s = self.lastTime % 60,
-        m = Math.floor(self.lastTime % 3600 / 60),
-        h = Math.floor(self.lastTime / 3600),
-        d = Math.floor(h/24) % 365
+    let seconds = self.lastTime,
+              s = self.lastTime % 60,
+        minutes = Math.floor(seconds / 60),
+              m = Math.floor(minutes % 60),
+          hours = Math.floor(minutes / 60),
+              h = Math.floor(hours % 24),
+           days = Math.floor(hours / 24),
+              d = Math.floor(days % 365),
+          years = Math.floor(days / 365)   
     let cbs = []   // 回调队列
     if(self.ticks++){
       self.s !== s && cbs.push(conf.onSecondChange)
       self.m !== m && cbs.push(conf.onMinuteChange)
       self.h !== h && cbs.push(conf.onHourChange)
       self.d !== d && cbs.push(conf.onDayChange)
+      self.seconds !== seconds && cbs.push(conf.onSecondChange)
+      self.minutes !== minutes && cbs.push(conf.onSecondChange)
+      self.hours !== hours && cbs.push(conf.onSecondChange)
+      self.days !== days && cbs.push(conf.onSecondChange)
+      self.years !== years && cbs.push(conf.onSecondChange)
     }
     if(self.lastTime <= 0){
       cbs.push(conf.onFinish)
@@ -42,13 +53,11 @@ export default class TimeCD {
       self.lastTime = 0;
     }
     Object.assign(self, {
-      // private
-      s, m, h, d,
-      // public
-      seconds: conf.format(s),
-      minutes: conf.format(m),
-      hours: conf.format(h),
-      days: conf.format(d),
+      seconds, minutes, hours, days, years,
+      s: conf.format(s),
+      m: conf.format(m),
+      h: conf.format(h),
+      d: conf.format(d),
     })
     cbs.forEach(cb => cb.call(self))
   }

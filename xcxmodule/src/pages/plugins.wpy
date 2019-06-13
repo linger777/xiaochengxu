@@ -1,6 +1,6 @@
 <template>
   <view class="li_plugins" style="{{colorStyle[0]}}">随机生成搭配的背景色和文本颜色</view>
-  <view class="li_plugins">距结束还剩<view>{{timeCD.days}}</view>:<view>{{timeCD.hours}}</view>:<view>{{timeCD.minutes}}</view>:<view>{{timeCD.seconds}}</view></view>
+  <view class="li_plugins" style="{{colorStyle[1]}}">距结束还剩:<text>{{timeCD.years}}</text>年<text>{{timeCD.d}}</text>天<text>{{timeCD.h}}</text>小时<text>{{timeCD.m}}</text>分<text>{{timeCD.s}}</text>秒</view>
 </template>
 <script>
 import wepy from "wepy"
@@ -23,7 +23,7 @@ export default class Plugins extends wepy.page{
   }
   countDownTime () {
     let that = this
-    this.time = new TimeCD({
+    this.timeCD = new TimeCD({
         lastTime: 74857732,
         onSecondChange(){
             that.$apply()

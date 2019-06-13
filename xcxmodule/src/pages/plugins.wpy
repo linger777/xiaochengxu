@@ -24,7 +24,8 @@ export default class Plugins extends wepy.page{
   countDownTime () {
     let that = this
     this.timeCD = new TimeCD({
-        lastTime: 74857732,
+        startTime: new Date().getTime(),
+        endTime: new Date('2020-06-13').getTime(),
         onSecondChange(){
             that.$apply()
         },

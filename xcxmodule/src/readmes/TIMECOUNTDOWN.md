@@ -2,6 +2,7 @@
 #### code索引
 - [code索引](../plugins/timeCountDown.js)
 - [demo索引](../pages/plugins.wpy)
+- [paper索引](https://www.jianshu.com/p/5e61c3899442)
 #### 主要功能
 倒计时。通过此插件，可以获取不同形式的时间数：单个时间总数-年、天、时、分、秒；组合形式的时间数-年天时分秒。
 #### 使用说明

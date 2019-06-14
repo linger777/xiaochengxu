@@ -1,8 +1,7 @@
 <template>
   <view class="navbar-box" wx:if="{{navbar.flag}}">
     <view class="placeholder" style="height:{{height}}px"></view>
-    <view class="navbar"
-      style="padding-top: {{paddingTop}}px; padding-bottom: {{paddingBottom}}px;">
+    <view class="navbar" :class="{screenCenter: navbar.titleStyle!=1}" style="padding-top: {{paddingTop}}px; padding-bottom: {{paddingBottom}}px;">
       <view class="nav_capsule" :class="{no_border:!showHome}" style="height:{{height_capsule}}px">
         <button class="nav_back" @tap="navBack" wx:if="{{showBack}}">
           <view class="icon_back"></view>
@@ -30,7 +29,8 @@ export default class Navbar extends wepy.component{
       // flag: true, //是否使用navbar
       // title: '顶部导航',	// 自定义导航标题
       // height: '',	// 导航高度
-      // showHome: true //是否显示去首页功能
+      // showHome: true, //是否显示去首页功能
+      // titleStyle: 'screen' //1：标题在左右胶囊间居中; 2: 标题相对屏幕居中。默认2
       // }
     }
   }
@@ -55,7 +55,7 @@ export default class Navbar extends wepy.component{
     }
   }
   onLoad() {
-    this.navbar.flag = wx.getSystemInfoSync().version.split('.')[0] >= 7 ? true : false
+    // this.navbar.flag = wx.getSystemInfoSync().version.split('.')[0] >= 7 ? true : false
     this.showBack = getCurrentPages().length > 1 ? true : false
     this.showHome = this.navbar.showHome
     // 获取菜单按钮（右上角胶囊按钮）的布局位置信息，坐标信息以屏幕左上角为原点。
@@ -82,6 +82,12 @@ export default class Navbar extends wepy.component{
     display: flex;
     align-items: center;
     background-color: #fff;
+    &.screenCenter {
+      display: block;
+      .nav_capsule {
+        position: absolute;
+      }
+    }
     .nav_capsule {
       min-width: 96rpx;
       border: 2rpx solid#F0F0F0;

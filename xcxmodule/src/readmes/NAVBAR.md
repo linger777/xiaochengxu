@@ -23,7 +23,8 @@
         navbar: {
             flag: true, //是否使用navbar
             title: '顶部导航', // 自定义导航标题
-            height: '' // 导航高度
+            height: '', // 导航高度
+            titleStyle: 'screen' //1：标题在左右胶囊间居中; 2: 标题相对屏幕居中。默认是2
         },
     }
 >>>>>

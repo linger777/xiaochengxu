@@ -4,6 +4,8 @@
 #### navbar —— 顶部导航 [readme][1]
 ### 插件
 #### generatorColor —— 随机生成搭配的背景色和文本色 [readme][2]
+#### timeCountDown —— 倒计时 [readme][3]
 
 [1]:xcxmodule/src/readmes/NAVBAR.md "navbar —— 顶部导航"
 [2]:xcxmodule/src/readmes/GENERATECOLOR.md "generatorColor —— 随机生成搭配的背景色和文本色"
+[3]:xcxmodule/src/readmes/TIMECOUNTDOWN.md "timeCountDown —— 倒计时"

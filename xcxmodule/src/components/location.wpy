@@ -1,0 +1,263 @@
+<template>
+  <view class="location_com">
+    <view class="current_location" bindtap="locationShow">
+      <text class="current">{{location.current_city}}</text>
+    </view>
+    <!-- 地区 begin -->
+    <view wx:if="{{location.city_is_show}}" class="home_city">
+      <view class='city_top' style="top: {{navbar.flag ? navbar.height : 0}}px;">
+        <text @tap="rec_city">{{lbs_location}}</text>
+        <text class="rec_location">推荐位置</text>
+      </view>
+      <div class='city_bottom' style="top: {{navbar.flag ? navbar.height : 0}}px;">
+        <!-- 一级城市 -->
+        <scroll-view scroll-y class="city_left">
+          <repeat for="{{city_data}}" index="index" item="item" key="key">
+            <div class="item" :class="{selected:item.selected == 1}" @tap="city_parent" data-item="{{item}}" data-son="{{item.son}}" data-id="{{item.id}}" data-name="{{item.name}}" data-selected="{{item.selected}}">{{item.name}}</div>
+          </repeat>
+        </scroll-view>
+        <!-- 二级城市 -->
+        <scroll-view scroll-y class="city_right">
+          <repeat for="{{city_son}}" index="index" item="item" key="key">
+            <view class="item" :class="{selectedT:item.selected == 1}" @tap="city_sonFn" data-item="{{item}}">{{item.name}}</view>
+          </repeat>
+        </scroll-view>
+      </div>
+    </view>
+    <!-- 地区end -->
+  </view>
+</template>
+<script>
+import wepy from "wepy"
+import location from "@/mixins/location"
+import {location_json} from "@/jsons/json_location"
+export default class Location extends wepy.component{
+  props = {
+    //当前的显示的城市名
+    location: {
+      type: Object,
+      default: {
+        // current_city : '' ,
+        // current_city_id : 0 ,
+        // city_is_show : false  // 是否显示地区过滤
+      },
+      twoWay: true
+    } 
+  }
+  data = {
+    lbs_location: '', //当前定位城市名（推荐位置）
+    lbs_city_id: '', //lbs定位的城市id（推荐位置）
+    city_data: [], //地区过滤数据
+    city_son: [], //二级城市
+    navbar: ''
+  }
+  methods = {
+    locationShow () {
+      // this.$invoke('location', 'cityFilterShowInvoke', {}) //在父级页面使用
+      this.cityFilterShow()
+    },
+    cityFilterShowInvoke () {
+      this.cityFilterShow()
+    },
+    city_parent (e) {
+      let city_son = e.currentTarget.dataset.son;
+      let city_parent_id = e.currentTarget.dataset.id;
+      let city_name = e.currentTarget.dataset.name;
+      //过滤高亮
+      this.city_data.map(function(item, index) {
+        item.selected = 0
+        if (item.name == city_name) {
+          item.selected = 1
+        }
+      })
+      if (city_son.length == 0) {
+        //一级城市
+        this.location.city_is_show = false;
+        this.location.current_city = e.currentTarget.dataset.name;
+        wx.setStorageSync("current_city", city_name)
+        wx.setStorageSync("choose_city", city_parent_id)
+        this.location.current_city_id = city_parent_id;
+        this.$emit('loadIndex')
+        this.city_son = [];
+        wx.setStorageSync("prov_name", '');
+      } else {
+        wx.setStorageSync("prov_name", city_name);
+        this.city_son = city_son;
+      }
+    },
+    city_sonFn(e) {
+      let that = this;
+      let item = e.currentTarget.dataset.item;
+      item.selected = 1
+      this.location.city_is_show = false;
+      this.location.current_city = item.name;
+      wx.setStorageSync("current_city", item.name)
+      wx.setStorageSync("choose_city", item.id)
+      this.location.current_city_id = item.id;
+      this.$emit('loadIndex')
+    }
+  }
+  cityFilterShow () {
+      if (this.location.city_is_show) {
+        this.location.city_is_show = false
+        return false;
+      }
+      let city_data_storage = wx.getStorageSync("city_Data")
+      if (city_data_storage == '') {
+        wx.setStorageSync("city_data", location_json.responseData)
+        this.city_data = location_json.responseData;
+        this.city_data[1].selected = 0
+        this.$apply()
+        this.renderList()
+      } else {
+        this.city_data = city_data_storage
+        this.city_data[1].selected = 0
+        this.renderList()
+      }
+    }
+  renderList () {
+    let prov_name = wx.getStorageSync("prov_name");
+    for (let i = 0,length = this.city_data.length; i < length; i++) {
+      if (this.city_data[i].name === prov_name) {
+        this.city_data[i].selected = 1;
+        let sons = this.city_data[i].son.map((item) => {
+          if (item.name === this.location.current_city) {
+            item.selected = 1;
+          }
+          return item;
+        })
+        this.city_son = sons;
+        break;
+      } else if (this.city_data[i].name === this.location.current_city) {
+        this.city_data[i].selected = 1;
+        break;
+      }
+    }
+    this.location.city_is_show = true;
+    this.$apply();
+  }
+  loadData(res) {
+    // this.location.current_city = res.choose_name;
+    this.lbs_location = res.lbs.lbs_location;
+    // this.location.current_city_id = res.id;
+    this.lbs_city_id = res.lbs.lbs_city_id;
+    this.$emit('loadIndex')
+  }
+  onLoad () {
+    // this.lbs_location = location.getLocation().lbs_location
+    // this.lbs_city_id = location.getLocation().lbs_city_id
+    location.getLocation().then((res) => {
+      //后台切前端必须刷新或才首页第一次打开时
+      if (res.isFresh || this.location.current_city_id === 0) {
+        this.$nextTick(()=>{
+          wx.pageScrollTo({
+            scrollTop:0
+          });
+        });
+        this.loadData(res);
+      }
+    })
+    this.navbar = this.$parent.navbar
+    this.$apply()
+  }
+  // events = {
+  //   loadIndex () {  //LOCATION选择后调用初始化
+  //     // this.params.index = 0
+  //     // this.getData()
+  //     console.log('---LOCATION选择后调用初始化---')
+  //   },
+  // }
+}
+</script>
+<style lang="less" scoped>
+.current_location{
+  z-index:10;
+  position: absolute;
+  top: 20rpx;
+  left: 0;
+  display: flex;
+  height: 56rpx;
+  border-radius: 0 200rpx 200rpx 0;
+  line-height: 56rpx;
+  padding-right: 10rpx;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 52rpx;
+  .current{
+    display: block;
+    margin: 0 10rpx;
+    max-width: 114rpx;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 28rpx;
+  }
+}
+.home_city {
+  width: 100%;
+  font-size: 26rpx;
+  position: relative;
+  .rec_location {
+    color: #999;
+    font-size: 22rpx;
+    margin-left: 40rpx;
+  }
+  .city_top {
+    position: fixed;
+    border-bottom: 1px solid #f1f1f1;
+    padding: 10rpx 30rpx;
+    // top: 85rpx;
+    top: 0;
+    width: 100%;
+    background: #fff;
+    z-index: 1000;
+    box-sizing: border-box;
+  }
+  .city_bottom {
+    position: fixed;
+    // top: 56rpx;
+    margin-top: 56rpx;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    background: #fff;
+    z-index: 999;
+    .city_right {
+      height: 100%;
+      box-sizing: border-box; //  overflow-y:scroll;
+      width: 510rpx;
+      padding: 20rpx 10rpx;
+      float: right;
+    }
+    .item {
+      display: block;
+      border-bottom: 1px solid #f1f1f1;
+      width: 100%;
+      height: 100rpx;
+      line-height: 100rpx;
+      padding: 0 10rpx 0 30rpx;
+      font-size: 30rpx;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    .selected {
+      border-left: 8rpx solid #69d7cc;
+      color: #69d7cc;
+      background: #fff;
+    }
+    .selectedT {
+      color: #69d7cc;
+    }
+    .city_left {
+      height: 100%; //  overflow-y:scroll;
+      width: 240rpx;
+      padding: 0 0rpx 20rpx 0rpx;
+      display: inline-block;
+      background: #F5F5F5;
+      box-sizing: border-box;
+    }
+  }
+}
+</style>

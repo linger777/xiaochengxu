@@ -1,18 +1,24 @@
 <template>
-  <view class="page_components">
-    <navbar :navbar.sync="navbar"></navbar>
-    <view class="divide"></view>
+  <view class="page-components">
+    <NAVBAR :navbar.sync="navbar"></NAVBAR>
+    <view class="page-main">
+      <!-- location begin -->
+      <LOCATION :location="location"></LOCATION>
+      <!-- location end -->
+    </view>
   </view>
 </template>
 <script>
 import wepy from "wepy"
-import navbar from "@/components/navbar"
+import NAVBAR from "@/components/navbar"
+import LOCATION from '@/components/location'
 export default class components extends wepy.page{
   config = {
     navigationStyle: "custom" 
   }
   components = {
-    navbar    //顶部导航
+    NAVBAR,    //顶部导航
+    LOCATION   //位置筛选器
   }
   data = {
     navbar: {
@@ -20,13 +26,32 @@ export default class components extends wepy.page{
       title: '顶部导航',
       height: ''
     },
+    location : {
+      current_city : '全部城市' ,
+      current_city_id : 0 , //请求接口需要的参数
+      city_is_show : false
+    } 
+  }
+  methods = {
+  }
+  events = {
+    loadIndex () {  //LOCATION选择后调用初始化
+      // this.params.index = 0
+      // this.getData()
+      console.log('---LOCATION选择后调用初始化---')
+    },
+  }
+  onLoad () {
   }
 }
 </script>
 <style lang="less">
-.page_components {
+.page-components {
   background-color: pink;
   height: 100vh;
+}
+.page-main {
+  position: relative;
 }
 </style>
 

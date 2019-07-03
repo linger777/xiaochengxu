@@ -1,7 +1,6 @@
 <template>
   <view class="page_components">
     <navbar :navbar.sync="navbar"></navbar>
-    <view class="divide"></view>
   </view>
 </template>
 <script>

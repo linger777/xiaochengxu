@@ -31,6 +31,7 @@
 import wepy from "wepy"
 import location from "@/mixins/location"
 import {location_json} from "@/jsons/json_location"
+import QQMapWX from '@/libs/qqmap-wx-jssdk.min'
 export default class Location extends wepy.component{
   props = {
     //当前的显示的城市名
